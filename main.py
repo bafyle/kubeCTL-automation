@@ -165,7 +165,7 @@ def _check_port(port: int) -> bool:
 
 
 
-def api_port_forward(current_namespace: Namespace, current_config: str):
+def pod_port_forward(current_namespace: Namespace, current_config: str):
     all_pods = get_all_pods_of_current_namespace_in_list(current_namespace, current_config)
     all_pods = convert_bytes_list_of_pods(all_pods)
     if not len(all_pods):
@@ -200,7 +200,7 @@ if __name__ == "__main__":
             1: quick_port_forward,
             2: print_all_pods_of_current_environment,
             3: get_logs,
-            4: api_port_forward,
+            4: pod_port_forward,
             5: print_all_deployments_of_current_environment,
         }
 

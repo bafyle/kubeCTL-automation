@@ -8,14 +8,14 @@ namespace_name1 = "namespace_name1"
 namespace_name2 = "namespace_name2"
 
 """
-Here you create new Namespace instances for each namespace you have with its name, description and the path for its config file
+Here you create new Namespace instances with its name, description and the path for its config file
 """
 namespace_instance1 = Namespace(namespace_name1, "namespace1 description", r"C:\Users\<your username>\.kube\config")
 namespace_instance2 = Namespace(namespace_name2, "namespace2 description", r"C:\Users\<your username>\.kube\config")
 
 """
 All namespaces in a dictionary (HashMap) to be viewed in the console
-Add or remove namespace instances created to the dictionary here to be viewed for the user and select them with their key
+Add or remove namespace instances created to the dictionary here to be viewed for the user and select them with their number
 """
 NAMESPACES = {
     1: namespace_instance1,
