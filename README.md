@@ -23,7 +23,7 @@ The tool can do the following:
 - Run main.py
 
 ### How to use
-Once configured (see [Configurations](#configurations) section) and run, you will be using the numbers to select the actions available to you in the command prompt.
+Once configured (see [Configurations](#configurations) section) and ran, you will be using the numbers to select the actions available to you in the command prompt.
 
 For example, you have a database deployment called "postgres-dev" on a namespace called "dev". You set this namespace to be the first one in your "NAMESPACES" dictionary in constants.py. You set a quick deployment with the namespace mentioned and with the database deployment name. Then you only need to enter 1 in the namespaces list and enter 1 in the actions list to connect to the database.
 
