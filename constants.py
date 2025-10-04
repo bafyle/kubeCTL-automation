@@ -52,3 +52,4 @@ When providing your text editor, please put in the full path. e.g: C:/path/to/ed
 TEXT_EDITOR_COMMAND = "code"
 
 LOGFILE_NAME = "logfile.log"
+STREAM_LOGFILE_NAME = "streamlog.log"
