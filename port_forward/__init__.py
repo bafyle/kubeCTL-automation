@@ -33,16 +33,20 @@ def api_port_forward(current_namespace: Namespace, current_config: str):
     _port_forward(current_namespace.name, current_config, selected_pod.name, port, port)
 
 
-def _get_pod_active_port(namespace: Namespace, pod: Pod, config: str) -> str:
+def _get_pod_active_port(namespace: Namespace, pod: Pod, config: str) -> str | None:
     logging.info(f"getting active port of pod: {pod}")
     describe_pod_command = ['kubectl', 'describe', 'pod', pod.name, "-n", namespace.name, f'--kubeconfig={config}']
     logging.info(f"running command {' '.join(describe_pod_command)}")
-    _, output, error = run_command(describe_pod_command)
+    _, cleaned_output, error = run_command(describe_pod_command)
     if(bool(error)):
         error_string = convert_bytes_to_list_of_string(error)
         logging.error('\n'.join(error_string))
         exit(1)
-    port_string = re.search(r"Port:\s*(\d+)", output.decode().strip()).group(1)
+    cleaned_output = cleaned_output.decode().strip()
+    port_string = re.search(r"Port:\s*(\d+)", cleaned_output).group(1)
+    if not port_string:
+        logging.error(f"Couldn't find a port string in the following\n{cleaned_output}", )
+        return
     port_int = int(port_string)
     logging.info(f"Port found: {port_string}")
     port_validation = _check_port(port_int)
