@@ -42,7 +42,6 @@ def _dump_logs_to_log_file(logs_command: list[str], absolute_file_name: str):
 
 
 def _open_log_file(command: list[str]):
-    logging.info(f"Opening the log file using the command: {' '.join(command)}")
     process, _, errors = run_command(command, shell=False)
     logging.info(f"subprocess with pid: {process.pid} exited with code: {process.returncode}")
     if errors is not None:
