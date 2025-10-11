@@ -30,18 +30,13 @@ if __name__ == "__main__":
             print(f"{key}- {value}")
 
         user_input = get_user_input_in_integer(1, len(NAMESPACES))
-
         current_namespace = NAMESPACES.get(user_input)
-
         current_config = current_namespace.kubeconfig
-
         print("Which action do you want ?")
-
         for key, value in logics.items():
             print(f"{key}- {value.__name__}")
-
+            
         user_input = get_user_input_in_integer(1, len(logics))
-
         logics.get(user_input)(current_namespace, current_config)
 
         print()
