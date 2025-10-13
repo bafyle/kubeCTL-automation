@@ -10,7 +10,7 @@ class ResourceType(enum.StrEnum):
 
 def print_all_pods_of_current_environment(current_namespace: Namespace, current_config: str):
     list_of_pods = get_all_resources_of_current_namespace_in_list(current_namespace, current_config, ResourceType.PODS)
-    if list_of_pods is None:
+    if len(list_of_pods) == 0:
         return
     printable_string = "\n".join(list_of_pods)
     print(f"all pods: \n{printable_string}", end='')
@@ -18,7 +18,7 @@ def print_all_pods_of_current_environment(current_namespace: Namespace, current_
     
 def print_all_deployments_of_current_environment(current_namespace: Namespace, current_config: str):
     list_of_all_deployments = get_all_resources_of_current_namespace_in_list(current_namespace, current_config, ResourceType.DEPLOYMENT)
-    if list_of_all_deployments is None:
+    if len(list_of_all_deployments) == 0:
         return
     printable_string = "\n".join(list_of_all_deployments)
     print(f"all deployments: \n{printable_string}", end='')
@@ -26,7 +26,7 @@ def print_all_deployments_of_current_environment(current_namespace: Namespace, c
 
 def print_specific_deployment_details(current_namespace: Namespace, current_config: str, deployment_name: str):
     data = get_specific_deployment_details(current_namespace, current_config, deployment_name)
-    if data == []:
+    if len(data) == 0:
         return
     printable_string = "\n".join(data)
     print(f"deployment details: \n{printable_string}", end='')
