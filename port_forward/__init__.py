@@ -4,7 +4,7 @@ import os
 import re
 
 from utils.string_utils import get_user_input_in_integer
-from utils.byte_utils import convert_bytes_to_list_of_string, convert_bytes_list_of_pods
+from utils.byte_utils import convert_bytes_to_list_of_string
 from utils.networking import is_port_in_use, get_process_name_for_port
 from utils import run_command
 from listing import get_all_resources_of_current_namespace_in_list, ResourceType
@@ -13,10 +13,16 @@ from model.namespace import Namespace
 from constants import QUICK_DEPLOYMENTS
 
 
+def _convert_strings_to_pods(data: list) -> list[Pod]:
+    list_of_pods = []
+    for pod_in_string in data:
+        pod_in_string_splitted = pod_in_string.split()
+        list_of_pods.append(Pod(pod_in_string_splitted[0], pod_in_string_splitted[1], pod_in_string_splitted[2], pod_in_string_splitted[3], pod_in_string_splitted[4]))
+    return list_of_pods
 
 def api_port_forward(current_namespace: Namespace, current_config: str):
     all_pods = get_all_resources_of_current_namespace_in_list(current_namespace, current_config, ResourceType.PODS)
-    all_pods = convert_bytes_list_of_pods(all_pods)
+    all_pods = _convert_strings_to_pods(all_pods)
     if not len(all_pods):
         return
     print("select which pod do you want to port forward to (only viewing running pods)")
@@ -36,7 +42,6 @@ def api_port_forward(current_namespace: Namespace, current_config: str):
 def _get_pod_active_port(namespace: Namespace, pod: Pod, config: str) -> str | None:
     logging.info(f"getting active port of pod: {pod}")
     describe_pod_command = ['kubectl', 'describe', 'pod', pod.name, "-n", namespace.name, f'--kubeconfig={config}']
-    logging.info(f"running command {' '.join(describe_pod_command)}")
     _, cleaned_output, error = run_command(describe_pod_command)
     if(bool(error)):
         error_string = convert_bytes_to_list_of_string(error)

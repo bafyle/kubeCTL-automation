@@ -26,9 +26,7 @@ def get_logs(current_namespace: Namespace, current_config: str):
     user_input = get_user_input_in_integer(1, len(all_deployments))
     current_deployment = all_deployments[user_input - 1]
     kubectl_logs_command = ["kubectl", "logs", f"deployment/{current_deployment}", "-n", current_namespace.name, f"--kubeconfig={current_config}"]
-    logging.info(f"running command: {' '.join(kubectl_logs_command)}")
     _dump_logs_to_log_file(kubectl_logs_command, LOGFILE_NAME)
-    # opening_text_editor_command = [TEXT_EDITOR_COMMAND, fr"{os.getcwd()}\{LOGFILE_NAME}"]
     opening_text_editor_command = [TEXT_EDITOR_COMMAND, os.path.join(os.getcwd(), LOGFILE_NAME)]
     _open_log_file(opening_text_editor_command)
 
@@ -42,7 +40,6 @@ def _dump_logs_to_log_file(logs_command: list[str], absolute_file_name: str):
 
 
 def _open_log_file(command: list[str]):
-    logging.info(f"Opening the log file using the command: {' '.join(command)}")
     process, _, errors = run_command(command, shell=False)
     logging.info(f"subprocess with pid: {process.pid} exited with code: {process.returncode}")
     if errors is not None:
@@ -76,7 +73,6 @@ def _start_stream(kubectl_stream_logs_command: list[str], current_deployment: st
         time.sleep(0.01)
         continue
     logging.log(logging.INFO, f"file found, opening {STREAM_LOGFILE_NAME} with the text editor")
-    # opening_text_editor_command = [TEXT_EDITOR_COMMAND, fr"{os.getcwd()}\{STREAM_LOGFILE_NAME}"]
     opening_text_editor_command = [TEXT_EDITOR_COMMAND, os.path.join(os.getcwd(), STREAM_LOGFILE_NAME)]
     _open_log_file(opening_text_editor_command)
     print("Press ctrl-c to stop streaming")
@@ -97,10 +93,10 @@ def _stream_stdout_to_file(command: list[str], absolute_file_name: str):
         for line in iter(lambda: process.stdout.read(4096), b''):
             if THREAD_SHUTDOWN_SIGNAL.is_set():
                 file.flush()
-                process.stdout.flush
-                process.kill()
+                process.stdout.flush()
+                process.terminate()
                 break
             file.write(line.decode("utf-8", errors="replace"))
             file.flush()
-            process.stdout.flush
+            process.stdout.flush()
         logging.log(logging.INFO, f"Thread ended, process.poll(): {process.poll()}")

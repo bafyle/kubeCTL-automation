@@ -9,10 +9,11 @@ The tool can do the following:
 - Ability to detect the port in which the pod is deployed and use this port as a local machine port for port-forward
 - Ability to detect which process is using a local port
 - Retrieve and view the logs of a pod
+- Stream logs of a pod
 - View some details about the deployments and pods in the cluster
+- Scale the deployments
 
 ## Requirements
-- Windows OS
 - Python 3.9+
 
 ## Installation and How to Use
@@ -41,6 +42,3 @@ All configurations are in the constants.py file. There are examples configs in t
 - If you have a favorite text editor or a program to view the logs other can VSCode, you can put its full path in TEXT_EDITOR_COMMAND constant. Please make sure this program opens the file passed to it as a command parameter. 
 - e.g: ```/path/to/your/program.exe logfile.log```
 - Finally, the logs will be saved in a file first before running using the command in TEXT_EDITOR_COMMAND. The file will be saved in the same path as where you run main.py. The file name and extension can be configured by changing the LOGFILE_NAME constants.
-
-## Limitations
-This tool is developed for Windows OS and will not work properly with other OSs, especially the detection of the process using a port.
